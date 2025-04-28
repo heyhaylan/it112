@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>haylan's flask app</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>{{ film.title }}</h1>
+
+    <ul>
+    <li>genre: {{ film.genre }}</li>
+    <li>rating: {{ film.rating }}</li>
+    </ul>
+
+    <a href="{{ url_for('show_films') }}" class="back-to-list">← back to list</a>
+
+
+    <nav>
+        <a href="/">home</a>
+        <a href="/about">about</a>
+        <a href="/fortune">fortune teller</a>
+        <a href="/films">films</a>
+    </nav>
+
+</div>
+{% endblock %}
