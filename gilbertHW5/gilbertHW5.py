@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///films.sqlite3'
 db = SQLAlchemy(app)
+
 
 # database
 class Film(db.Model):
@@ -16,6 +17,15 @@ class Film(db.Model):
         self.title = title
         self.genre = genre
         self.rating = rating
+
+    @property
+    def serialize(self):
+         return {
+              'id': self.id,
+              'title': self.title,
+              'genre': self.genre,
+              'rating': self.rating
+         }
 
 # clear database
 '''
@@ -34,6 +44,14 @@ with app.app_context():
             Film("Invasion of the Body Snatchers", "Sci-Fi", "PG")
         ])
         db.session.commit()
+
+# data dictionary for JSON
+data = {
+     "id": Film.id,
+     "title": Film.title,
+     "genre": Film.genre,
+     "rating": Film.rating 
+          }
 
 #home page
 @app.route('/')
@@ -106,6 +124,24 @@ def film_detail(film_id):
     film = Film.query.get_or_404(film_id)
     return render_template('film_detail.html', film=film)
 
-    
+# return JSON data
+@app.route('/api/films')
+def api_films():
+     return jsonify([film.serialize for film in Film.query.all()])
+
+@app.post('/api/add_film')
+def add_film():
+    data = request.get_json()
+    try:
+        film = Film(title=data['title'], genre=data['genre'], rating=data['rating'])
+        db.session.add(film)
+        db.session.commit()
+        return jsonify({"status": "success"})
+    except Exception:
+        return app.response_class(response={"status": "failure"},
+                                  status=500,
+                                  mimetype='application/json')
+
+# run app    
 if __name__ == "__main__":
     app.run(debug=True)
