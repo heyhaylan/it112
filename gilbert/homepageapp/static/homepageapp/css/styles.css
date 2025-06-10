@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-weight: 100;
+    
+}
+
+body {
+    background-color: lightblue;
+}
+
+
+.main {
+    background-color: white;
+    width: 50%;
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+
+h1 {
+    color: black;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.home-image {
+    padding: 10px; 
+    display: block;
+    margin: 0 auto;
+}

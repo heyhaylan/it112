@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>homepage</title>
+    <link rel="stylesheet" href="{% static 'homepageapp/css/styles.css' %}">
+</head>
+
+<body>
+    <div class="main">
+        <h1>
+            {% if user_name %}
+                Hello, {{ user_name }}! Welcome to the homepage.
+            {% else %}
+                Hello, stranger! Welcome to the homepage.
+            {% endif %}
+        </h1>
+        <img src="{% static 'homepageapp/images/welcome.png' %}" alt="One big fluffy cat and one small pointy cat." class="home-image">
+    </div>
+</body>
+</html>
